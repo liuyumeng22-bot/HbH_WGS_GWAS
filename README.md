@@ -27,4 +27,4 @@ sequencing of 591 patients with Hemoglobin H disease"
 
 ## Contact
 
-For questions, please contact: [通讯作者邮箱]
+For questions, please contact: [Liuyu996221@163.com]
