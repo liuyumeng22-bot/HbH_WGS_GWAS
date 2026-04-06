@@ -1,9 +1,9 @@
-一. ###################提取相应列画manhattan,qq图：
+###################提取相应列画manhattan,qq图：
 cd /public/home/liuyumeng/new_gwas_results/case-control/result/manhattan.plot
 awk '{print$2"\t"$1"\t"$3"\t"$13}' ../new_case_control.fastGWA>./assoc.manhatant.qq.txt
 awk '!/chr21:5219327_TA\/T/' ./assoc.manhatant.qq.txt >./delete_1_assoc.manhatant.qq.txt
 
-二. ##################提取相应列和P<1e-5独立位点用于后续VEP注释
+##################提取相应列和P<1e-5独立位点用于后续VEP注释
 source ~/.bashrc
 conda activate bcftools
 bcftools=/public/home/liuyumeng/anaconda3/envs/bcftools/bin/bcftools
@@ -27,7 +27,7 @@ done
 $bcftools concat $path1/chr1.vcf.gz $path1/chr2.vcf.gz $path1/chr5.vcf.gz $path1/chr6.vcf.gz  $path1/chr9.vcf.gz  $path1/chr12.vcf.gz  $path1/chr16.vcf.gz $path1/chr17.vcf.gz $path1/chr20.vcf.gz $path1/chr21.vcf.gz -Oz -o $outdir/chr.vep.vcf.gz
 $bcftools index -t $outdir/chr.vep.vcf.gz
 
-三. #############
+#############
 ###################################VEP注释：
 source ~/.bashrc
 conda activate vep
@@ -35,9 +35,9 @@ reference=/public/home/liuyumeng/reference
 path=/public/home/liuyumeng/new_gwas_results/case-control/result/vep
 vep -i $path/chr.vep.vcf.gz  --assembly GRCh38 --cache --cache_version 108 --dir /public/home/liuyumeng/vep/reference/  --port 3337 --offline --fasta $reference/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna  --everything -o $path/vep.txt
 
-四. ########################
+########################
 ####################################locuszooms:
-三个leading SNPS:
+#三个leading SNPS:
 chr16:336749_G/A
 chr20:55443626_AGGAGTGGGGCCT/A
 chr2:225873608_TTG/T
@@ -73,25 +73,18 @@ python2 $locuszoom --metal $path/case_control.metal --refsnp chr2:225873608_TTG/
 
 
 ###########
-五. ###############################finemap/SUSIER
-寻找lead snp: chr16:282411_G/A
-以lead snp为中心，上下游500kb的范围的所有snp列表，制成z.file
-chr16:336749_G/A
-chr20:55443626_AGGAGTGGGGCCT/A
-chr2:225873608_TTG/T
-chr16:282411_G/A
-SNP	zscore	N
-chr16:282411_G/A
+###############################finemap/SUSIER
+#寻找lead snp: chr16:282411_G/A
+#以lead snp为中心，上下游500kb的范围的所有snp列表，制成z.file
+#chr16:282411_G/A
 cd /public/home/liuyumeng/new_gwas_results/case-control/result/SusieR
-CHR     SNP     POS     A1      A2      N       AF1     T       SE_T    P_noSPA BETA    SE      P       CONVERGE
 awk -v c="16" -v p="282411" -v w="500000" 'NR==1 || ($1==c && $3>=p-w && $3<=p+w)' ../new_case_control.fastGWA >./chr16_282411_G_A.txt
 awk  'NR==1 || ($1==16 && $3>=34870 && $3<=1034870)' ../new_case_control.fastGWA >./chr16_282411_G_A.txt
 
 # 跳过标题行，计算zscore = BETA(第11列)/SE(第12列)
-CHR     SNP     POS     A1      A2      N       AF1     T       SE_T    P_noSPA BETA    SE      P       CONVERGE
 awk 'NR==1 {next} {zscore=$11/$12; print $2, zscore, $6}' OFS='\t' ./chr16_282411_G_A.txt >./chr16_282411_G_A.zscore.txt
 
-制作SUSIER
+#制作SUSIER
 source ~/.bashrc
 conda activate bcftools
 bcftools=/public/home/liuyumeng/anaconda3/envs/bcftools/bin/bcftools
