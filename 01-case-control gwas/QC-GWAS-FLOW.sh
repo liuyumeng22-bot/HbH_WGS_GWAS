@@ -1,13 +1,13 @@
-(文章材料方法书写流程：variants QC --Sample QC --VEP --Variants统计 --GWAS QC(PLINK QC))
-①VQSR(SNP:99.5;INDELS:99.0)
-②HF(DP>=10,GQ>=20),missing 10%,LongINDEL (length>20bp) were excluded(具体看小艾截图ppt)
-③Sample QC:sex check ....
-④VEP注释
+#(文章材料方法书写流程：variants QC --Sample QC --VEP --Variants统计 --GWAS QC(PLINK QC))
+#①VQSR(SNP:99.5;INDELS:99.0)
+#②HF(DP>=10,GQ>=20),missing 10%,LongINDEL (length>20bp) were excluded(具体看小艾截图ppt)
+#③Sample QC:sex check ....
+#④VEP注释
 
 
 
 
-1.QC:GQ<20,DP<10,INDEL>20bp,missing>10%
+#1.QC:GQ<20,DP<10,INDEL>20bp,missing>10%
 
 source ~/.bashrc
 conda activate bcftools
@@ -28,7 +28,7 @@ $bcftools index -t $outdir/chr22.concat.GQDP.INDEL20.missing10.vcf.gz
 
 
 
-2.将SNPID的.改为chr:pos_ref/alt:
+#2.将SNPID的.改为chr:pos_ref/alt:
 source ~/.bashrc
 conda activate bcftools
 bcftools=/public/home/liuyumeng/anaconda3/envs/bcftools/bin/bcftools
@@ -45,7 +45,7 @@ $bcftools index -t $outdir/chr22.concat.GQDP.INDEL20.missing10.snpid.vcf.gz
 
 
 
-3.###############剔除质控不合格样本
+#3.###############剔除质控不合格样本
 source ~/.bashrc
 conda activate bcftools
 bcftools=/public/home/liuyumeng/anaconda3/envs/bcftools/bin/bcftools
@@ -65,7 +65,7 @@ $bcftools index -t $outdir2/chr22_585_1246.concat.GQDP.INDEL20.missing10.snpid.v
 $bcftools query -l $outdir2/chr22_585_1246.concat.GQDP.INDEL20.missing10.snpid.vcf.gz >/public/home/liuyumeng/sample.list/585_1246.sample.list
 
 
-4.###################585sample22个chr.vcf合并
+#4.###################585sample22个chr.vcf合并
 source ~/.bashrc
 conda activate bcftools
 bcftools=/public/home/liuyumeng/anaconda3/envs/bcftools/bin/bcftools
